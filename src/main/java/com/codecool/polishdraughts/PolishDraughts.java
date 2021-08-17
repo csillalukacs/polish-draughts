@@ -1,6 +1,5 @@
 package com.codecool.polishdraughts;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class PolishDraughts {
