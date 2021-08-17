@@ -21,6 +21,6 @@ public class PolishDraughts {
     public static void main(String[] args) {
         int boardSize = getBoardSize();
         Game game = new Game(boardSize);
-        game.play();
+        game.start();
     }
 }

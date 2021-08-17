@@ -74,21 +74,25 @@ public class Game {
     }
 
 
-    public void play(){
+    public void start(){
         System.out.println("playing...");
         System.out.println(board);
 
         int player = 1;
         while (true) {
-
-            Pawn pawnToMove = this.getPawn(player);
-            Coordinates newPosition = getNewPosition(pawnToMove);
-
-            board.movePawn(pawnToMove, newPosition);
-            System.out.println(board);
-
-            player = (player == 1) ? 0 : 1;
+            player = playRound(player);
         }
 
+    }
+
+    private int playRound(int player) {
+        Pawn pawnToMove = this.getPawn(player);
+        Coordinates newPosition = getNewPosition(pawnToMove);
+
+        board.movePawn(pawnToMove, newPosition);
+        System.out.println(board);
+
+        player = (player == 1) ? 0 : 1;
+        return player;
     }
 }

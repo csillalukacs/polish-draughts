@@ -50,11 +50,15 @@ public class Board {
         pawn.setPosition(newPosition);
         this.fields[newY][newX] = pawn;
 
+        removePawn(oldX, oldY, newX, newY);
+
+
+    }
+
+    private void removePawn(int oldX, int oldY, int newX, int newY) {
         if (Math.abs(newX - oldX) == 2){
-            this.fields[(oldY+newY)/2][(oldX+newX)/2] = null;
+            this.fields[(oldY + newY)/2][(oldX + newX)/2] = null;
         }
-
-
     }
 
 
