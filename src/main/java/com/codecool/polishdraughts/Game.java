@@ -1,5 +1,6 @@
 package com.codecool.polishdraughts;
 
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Arrays;
 
@@ -25,7 +26,7 @@ public class Game {
         if (input.length() < 2){
             return true;
         } else {
-            char[] inputChars = input.toCharArray();
+            char[] inputChars = input.toLowerCase().toCharArray();
             char coordinateLetter = inputChars[0];
             String coordinateNumber = new String(Arrays.copyOfRange(inputChars, 1, inputChars.length));
             if (!(Character.isLetter(coordinateLetter)) ||
@@ -34,8 +35,8 @@ public class Game {
             }
             int firstCoordinate = coordinateLetter - 'a';
             int secondCoordinate = Integer.parseInt(coordinateNumber) - 1;
-            return (firstCoordinate > boardSize) ||
-                    (secondCoordinate > boardSize) ||
+            return (firstCoordinate >= boardSize) ||
+                    (secondCoordinate >= boardSize) ||
                     (firstCoordinate < 0) ||
                     (secondCoordinate < 0);
         }
