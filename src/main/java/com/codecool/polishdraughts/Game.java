@@ -116,10 +116,10 @@ public class Game {
     public void printWinner(int winner) {
         switch (winner) {
             case 0:
-                System.out.println("White wins!");
+                System.out.println("Player 0 (top) wins!");
                 break;
             case 1:
-                System.out.println("Black wins!");
+                System.out.println("Player 1 (bottom) wins!");
                 break;
             default:
                 System.out.println("No winner!");
