@@ -59,23 +59,45 @@ public class Pawn {
         // Check multiple step moves
         // Top left
         if ((moveY == pawnY - 2) && (moveX == pawnX - 2)) {
-            return ((this.fields[pawnY - 1][pawnX - 1].getColor() == opponentColor) &&
+            return ((this.fields[pawnY - 1][pawnX - 1] != null) &&
+                    (this.fields[pawnY - 1][pawnX - 1].getColor() == opponentColor) &&
                     (this.fields[pawnY - 2][pawnX - 2] == null));
         }
         // Top right
         if ((moveY == pawnY - 2) && (moveX == pawnX + 2)) {
-            return ((this.fields[pawnY - 1][pawnX + 1].getColor() == opponentColor) &&
+            return ((this.fields[pawnY - 1][pawnX + 1] != null) &&
+                    (this.fields[pawnY - 1][pawnX + 1].getColor() == opponentColor) &&
                     (this.fields[pawnY - 2][pawnX + 2] == null));
         }
         // Bottom left
         if ((moveY == pawnY + 2) && (moveX == pawnX - 2)) {
-            return ((this.fields[pawnY + 1][pawnX - 1].getColor() == opponentColor) &&
+            return ((this.fields[pawnY + 1][pawnX - 1] != null) &&
+                    (this.fields[pawnY + 1][pawnX - 1].getColor() == opponentColor) &&
                     (this.fields[pawnY + 2][pawnX - 2] == null));
         }
         // Bottom right
         if ((moveY == pawnY + 2) && (moveX == pawnX + 2)) {
-            return ((this.fields[pawnY + 1][pawnX + 1].getColor() == opponentColor) &&
+            return ((this.fields[pawnY + 1][pawnX + 1] != null) &&
+                    (this.fields[pawnY + 1][pawnX + 1].getColor() == opponentColor) &&
                     (this.fields[pawnY + 2][pawnX + 2] == null));
+        }
+        return false;
+    }
+
+    public boolean canMove(){
+        Coordinates[] directions = {position.topLeft(fields.length),
+                position.topRight(fields.length),
+                position.bottomLeft(fields.length),
+                position.bottomRight(fields.length),
+                position.captureTopLeft(fields.length),
+                position.captureTopRight(fields.length),
+                position.captureBottomLeft(fields.length),
+                position.captureBottomRight(fields.length),
+        };
+        for (Coordinates direction : directions ){
+            if (direction != null && validateMove(direction)){
+                return true;
+            }
         }
         return false;
     }
