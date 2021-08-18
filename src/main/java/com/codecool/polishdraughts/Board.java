@@ -80,39 +80,40 @@ public class Board {
     public String toString(){
         clearScreen();
         StringBuilder formattedBoard = new StringBuilder();
-        StringBuilder letterRow = new StringBuilder("   ");
+        StringBuilder firstRow = new StringBuilder("  ");
         for (int i = 1; i <= this.size; i++) {
-            letterRow.append(" ").append((char) (i + 64)).append(" ");
+            firstRow.append(" " + (char) (i + 64) + " ");
         }
-        formattedBoard.append(letterRow).append("\n");
+        formattedBoard.append(firstRow).append("\n");
         int rowNumber = 1;
         boolean whiteSquare = true;
         for (Pawn[] row : fields) {
-            StringBuilder formattedRow = new StringBuilder((rowNumber < 10 ? " " : "") + rowNumber + " ");
+
+            StringBuilder formattedRow = new StringBuilder(rowNumber + (rowNumber < 10 ? " " : ""));
             for (Pawn pawn : row) {
+
                 if (pawn == null){
-                    formattedRow.append(whiteSquare ? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND).append("   ").append(ANSI_RESET);
+                    formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + "   " + ANSI_RESET);
                 }
                 else if (pawn.canMove() && pawn.getColor() == 0){
-                    formattedRow.append(whiteSquare ? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND).append(ANSI_WHITE).append(" ● ").append(ANSI_RESET);
+                    formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + ANSI_WHITE + " ● " + ANSI_RESET );
                 } else if (pawn.canMove() && pawn.getColor() == 1){
-                    formattedRow.append(whiteSquare ? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND).append(ANSI_YELLOW).append(" ● ").append(ANSI_RESET);
+                    formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + ANSI_YELLOW + " ● " + ANSI_RESET );
                 } else {
                     if (pawn.getColor()==0){
-                        formattedRow.append(whiteSquare ? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND).append(ANSI_WHITE).append(" ◐ ").append(ANSI_RESET);
+                        formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + ANSI_WHITE + " ◐ " + ANSI_RESET);
                     } else {
-                        formattedRow.append(whiteSquare ? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND).append(ANSI_YELLOW).append(" ◐ ").append(ANSI_RESET);
+                        formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + ANSI_YELLOW + " ◐ " + ANSI_RESET);
                     }
                 }
                 whiteSquare = !whiteSquare;
             }
-            formattedRow.append(" ").append(rowNumber);
             formattedRow.append("\n");
             formattedBoard.append(formattedRow);
             rowNumber++;
             whiteSquare = !whiteSquare;
         }
-        formattedBoard.append(letterRow);
+
         return formattedBoard.toString();
     }
 }
