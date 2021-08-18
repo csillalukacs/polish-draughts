@@ -12,6 +12,11 @@ public class Game {
         board = new Board(n);
     }
 
+    public void clearScreen () {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public boolean stringIsNumeric (String possibleNumber) {
         return possibleNumber.chars().allMatch( Character::isDigit );
     }
@@ -54,7 +59,8 @@ public class Game {
         while (invalidInput(pawnString, board.getSize())
                 || (board.getField(toCoordinate(pawnString)) == null)
                 || player != board.getField(toCoordinate(pawnString)).getColor()) {
-            pawnString = getInput("Which pawn do you want to move, player " + player + "?");
+            String location = (player == 1) ? " (bottom)" : " (top)";
+            pawnString = getInput("Which pawn do you want to move, player " + player + location + "?");
         }
 
         Pawn pawn = this.board.getField(toCoordinate(pawnString));
@@ -63,7 +69,7 @@ public class Game {
         return pawn;
     }
 
-    public Coordinates getNewPosition(Pawn pawnToMove, int player) {
+    public Coordinates getNewPosition(Pawn pawnToMove) {
         String position = "";
 
         while (invalidInput(position, board.getSize()) || !pawnToMove.validateMove(toCoordinate(position))) {
@@ -121,6 +127,7 @@ public class Game {
     }
 
     public void start(){
+        clearScreen();
         System.out.println(board);
         int winner = -1;
         int player = 1;
@@ -134,9 +141,10 @@ public class Game {
 
     private void playRound(int player) {
         Pawn pawnToMove = this.getPawn(player);
-        Coordinates newPosition = getNewPosition(pawnToMove, player);
+        Coordinates newPosition = getNewPosition(pawnToMove);
 
         board.movePawn(pawnToMove, newPosition);
+        clearScreen();
         System.out.println(board);
     }
 }

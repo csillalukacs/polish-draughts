@@ -54,8 +54,6 @@ public class Board {
         }
     }
 
-
-
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -65,6 +63,14 @@ public class Board {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     public String toString(){
         StringBuilder formattedBoard = new StringBuilder();
@@ -74,18 +80,32 @@ public class Board {
         }
         formattedBoard.append(firstRow).append("\n");
         int rowNumber = 1;
+        boolean whiteSquare = true;
         for (Pawn[] row : fields) {
+
             StringBuilder formattedRow = new StringBuilder(rowNumber + (rowNumber < 10 ? " " : ""));
             for (Pawn pawn : row) {
-                if (pawn != null && pawn.canMove()){
-                    formattedRow.append( ANSI_GREEN +  " " + pawn.getColor() + " " + ANSI_RESET );
-                } else {
-                    formattedRow.append((pawn != null) ? " " + pawn.getColor() + " " : " . ");
+
+                if (pawn == null){
+                    formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + "   " + ANSI_RESET);
                 }
+                else if (pawn.canMove() && pawn.getColor() == 0){
+                    formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + ANSI_WHITE + " ● " + ANSI_RESET );
+                } else if (pawn.canMove() && pawn.getColor() == 1){
+                    formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + ANSI_YELLOW + " ● " + ANSI_RESET );
+                } else {
+                    if (pawn.getColor()==0){
+                        formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + ANSI_WHITE + " ◐ " + ANSI_RESET);
+                    } else {
+                        formattedRow.append( (whiteSquare? ANSI_WHITE_BACKGROUND : ANSI_BLACK_BACKGROUND) + ANSI_YELLOW + " ◐ " + ANSI_RESET);
+                    }
+                }
+                whiteSquare = !whiteSquare;
             }
             formattedRow.append("\n");
             formattedBoard.append(formattedRow);
             rowNumber++;
+            whiteSquare = !whiteSquare;
         }
 
         return formattedBoard.toString();
