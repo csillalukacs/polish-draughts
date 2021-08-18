@@ -21,9 +21,6 @@ public class Game {
             char[] inputChars = input.toCharArray();
             char firstLetter = inputChars[0];
             String coordinateNumber = new String(Arrays.copyOfRange(inputChars, 1, inputChars.length));
-            System.out.println(coordinateNumber);
-            System.out.println(stringIsNumeric(coordinateNumber));
-
             if (!(Character.isLetter(firstLetter)) ||
                     !(stringIsNumeric(coordinateNumber))) {
                 return false;
@@ -75,7 +72,6 @@ public class Game {
 
 
     public void start(){
-        System.out.println("playing...");
         System.out.println(board);
 
         int player = 1;

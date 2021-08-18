@@ -63,7 +63,6 @@ public class Board {
 
 
     public String toString(){
-        System.out.println("this is a(n) " + fields.length + " by " + fields.length + " board");
         StringBuilder formattedBoard = new StringBuilder();
         StringBuilder firstRow = new StringBuilder("  ");
         for (int i = 1; i <= this.size; i++) {
