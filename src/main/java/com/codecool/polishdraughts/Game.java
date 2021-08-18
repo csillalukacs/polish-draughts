@@ -3,6 +3,7 @@ package com.codecool.polishdraughts;
 import java.util.Scanner;
 import java.util.Arrays;
 
+
 public class Game {
     private Board board;
 
@@ -12,6 +13,12 @@ public class Game {
 
     public boolean stringIsNumeric (String possibleNumber) {
         return possibleNumber.chars().allMatch( Character::isDigit );
+    }
+
+    public static String getInput (String message) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(message);
+        return sc.nextLine();
     }
 
     public boolean invalidInput(String input, int boardSize){
@@ -41,29 +48,25 @@ public class Game {
     }
 
     public Pawn getPawn(int player) {
-        Scanner sc = new Scanner(System.in);
         String pawn = "";
 
         while (invalidInput(pawn, board.getSize())
                 || (board.getField(toCoordinate(pawn)) == null)
                 || player != board.getField(toCoordinate(pawn)).getColor()) {
-            System.out.println("Which pawn do you want to move?");
-            pawn = sc.nextLine();
+            pawn = getInput("Which pawn do you want to move?");
         }
 
         return this.board.getField(toCoordinate(pawn));
     }
 
     public Coordinates getNewPosition(Pawn pawnToMove) {
-        Scanner sc = new Scanner(System.in);
-        String input = "";
+        String position = "";
 
-        while (invalidInput(input, board.getSize()) || !pawnToMove.validateMove(toCoordinate(input))) {
-            System.out.println("Where do you want to move?");
-            input = sc.nextLine();
+        while (invalidInput(position, board.getSize()) || !pawnToMove.validateMove(toCoordinate(position))) {
+            position = getInput("Where do you want to move?");
         }
 
-        return toCoordinate(input);
+        return toCoordinate(position);
     }
 
 

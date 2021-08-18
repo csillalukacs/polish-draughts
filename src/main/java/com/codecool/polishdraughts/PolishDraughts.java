@@ -1,18 +1,16 @@
 package com.codecool.polishdraughts;
 
-import java.util.Scanner;
 
 public class PolishDraughts {
 
     public static int getBoardSize() {
         int size = 0;
-        Scanner sc = new Scanner(System.in);
-        while (! (size >=10 && size <= 20 && size % 2 == 0)) {
-            System.out.println("Enter board size: ");
-            String sizeString = sc.nextLine();
+        while (!((size >= 10) && (size <= 20) && (size % 2 == 0))) {
+            String sizeString = Game.getInput("Enter board size:");
             try {
                 size = Integer.parseInt(sizeString);
             } catch (NumberFormatException e) {
+                return getBoardSize();
             }
         }
         return size;
