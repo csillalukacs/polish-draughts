@@ -53,14 +53,15 @@ public class Game {
 
         while (invalidInput(pawn, board.getSize())
                 || (board.getField(toCoordinate(pawn)) == null)
-                || player != board.getField(toCoordinate(pawn)).getColor()) {
-            pawn = getInput("Which pawn do you want to move?");
+                || player != board.getField(toCoordinate(pawn)).getColor()
+                || !board.getField(toCoordinate(pawn)).canMove()) {
+            pawn = getInput("Which pawn do you want to move, player " + player + "?");
         }
 
         return this.board.getField(toCoordinate(pawn));
     }
 
-    public Coordinates getNewPosition(Pawn pawnToMove) {
+    public Coordinates getNewPosition(Pawn pawnToMove, int player) {
         String position = "";
 
         while (invalidInput(position, board.getSize()) || !pawnToMove.validateMove(toCoordinate(position))) {
@@ -83,7 +84,7 @@ public class Game {
 
     private int playRound(int player) {
         Pawn pawnToMove = this.getPawn(player);
-        Coordinates newPosition = getNewPosition(pawnToMove);
+        Coordinates newPosition = getNewPosition(pawnToMove, player);
 
         board.movePawn(pawnToMove, newPosition);
         System.out.println(board);
