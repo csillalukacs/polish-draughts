@@ -1,7 +1,9 @@
 package com.codecool.polishdraughts;
 
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Arrays;
+
 
 public class Game {
     private Board board;
@@ -14,30 +16,30 @@ public class Game {
         return possibleNumber.chars().allMatch( Character::isDigit );
     }
 
-    public boolean validateInput(String input, int boardSize){
-        if (input.length() < 2){
-            return false;
-        } else {
-            char[] inputChars = input.toCharArray();
-            char firstLetter = inputChars[0];
-            String coordinateNumber = new String(Arrays.copyOfRange(inputChars, 1, inputChars.length));
-            System.out.println(coordinateNumber);
-            System.out.println(stringIsNumeric(coordinateNumber));
+    public static String getInput (String message) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(message);
+        return sc.nextLine();
+    }
 
-            if (!(Character.isLetter(firstLetter)) ||
+    public boolean invalidInput(String input, int boardSize){
+        if (input.length() < 2){
+            return true;
+        } else {
+            char[] inputChars = input.toLowerCase().toCharArray();
+            char coordinateLetter = inputChars[0];
+            String coordinateNumber = new String(Arrays.copyOfRange(inputChars, 1, inputChars.length));
+            if (!(Character.isLetter(coordinateLetter)) ||
                     !(stringIsNumeric(coordinateNumber))) {
-                return false;
+                return true;
             }
-            int firstCoordinate = firstLetter - 'a';
+            int firstCoordinate = coordinateLetter - 'a';
             int secondCoordinate = Integer.parseInt(coordinateNumber) - 1;
-            if ((firstCoordinate > boardSize) ||
-                    (secondCoordinate > boardSize) ||
+            return (firstCoordinate >= boardSize) ||
+                    (secondCoordinate >= boardSize) ||
                     (firstCoordinate < 0) ||
-                    (secondCoordinate < 0)) {
-                return false;
-            }
+                    (secondCoordinate < 0);
         }
-        return true;
     }
 
     public static Coordinates toCoordinate(String input){
@@ -47,35 +49,29 @@ public class Game {
     }
 
     public Pawn getPawn(int player) {
-        Scanner sc = new Scanner(System.in);
         String pawn = "";
 
-        while (!validateInput(pawn, board.getSize())
+        while (invalidInput(pawn, board.getSize())
                 || (board.getField(toCoordinate(pawn)) == null)
                 || player != board.getField(toCoordinate(pawn)).getColor()) {
-            System.out.println("Which pawn do you want to move?");
-            pawn = sc.nextLine();
+            pawn = getInput("Which pawn do you want to move?");
         }
 
-        Pawn pawnToMove = this.board.getField(toCoordinate(pawn));
-        return pawnToMove;
+        return this.board.getField(toCoordinate(pawn));
     }
 
     public Coordinates getNewPosition(Pawn pawnToMove) {
-        Scanner sc = new Scanner(System.in);
-        String input = "";
+        String position = "";
 
-        while (!validateInput(input, board.getSize()) || !pawnToMove.validateMove(toCoordinate(input))) {
-            System.out.println("Where do you want to move?");
-            input = sc.nextLine();
+        while (invalidInput(position, board.getSize()) || !pawnToMove.validateMove(toCoordinate(position))) {
+            position = getInput("Where do you want to move?");
         }
 
-        return toCoordinate(input);
+        return toCoordinate(position);
     }
 
 
     public void start(){
-        System.out.println("playing...");
         System.out.println(board);
 
         int player = 1;
