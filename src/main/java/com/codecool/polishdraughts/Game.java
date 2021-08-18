@@ -14,27 +14,24 @@ public class Game {
         return possibleNumber.chars().allMatch( Character::isDigit );
     }
 
-    public boolean validateInput(String input, int boardSize){
+    public boolean invalidInput(String input, int boardSize){
         if (input.length() < 2){
-            return false;
+            return true;
         } else {
             char[] inputChars = input.toCharArray();
-            char firstLetter = inputChars[0];
+            char coordinateLetter = inputChars[0];
             String coordinateNumber = new String(Arrays.copyOfRange(inputChars, 1, inputChars.length));
-            if (!(Character.isLetter(firstLetter)) ||
+            if (!(Character.isLetter(coordinateLetter)) ||
                     !(stringIsNumeric(coordinateNumber))) {
-                return false;
+                return true;
             }
-            int firstCoordinate = firstLetter - 'a';
+            int firstCoordinate = coordinateLetter - 'a';
             int secondCoordinate = Integer.parseInt(coordinateNumber) - 1;
-            if ((firstCoordinate > boardSize) ||
+            return (firstCoordinate > boardSize) ||
                     (secondCoordinate > boardSize) ||
                     (firstCoordinate < 0) ||
-                    (secondCoordinate < 0)) {
-                return false;
-            }
+                    (secondCoordinate < 0);
         }
-        return true;
     }
 
     public static Coordinates toCoordinate(String input){
@@ -47,22 +44,21 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         String pawn = "";
 
-        while (!validateInput(pawn, board.getSize())
+        while (invalidInput(pawn, board.getSize())
                 || (board.getField(toCoordinate(pawn)) == null)
                 || player != board.getField(toCoordinate(pawn)).getColor()) {
             System.out.println("Which pawn do you want to move?");
             pawn = sc.nextLine();
         }
 
-        Pawn pawnToMove = this.board.getField(toCoordinate(pawn));
-        return pawnToMove;
+        return this.board.getField(toCoordinate(pawn));
     }
 
     public Coordinates getNewPosition(Pawn pawnToMove) {
         Scanner sc = new Scanner(System.in);
         String input = "";
 
-        while (!validateInput(input, board.getSize()) || !pawnToMove.validateMove(toCoordinate(input))) {
+        while (invalidInput(input, board.getSize()) || !pawnToMove.validateMove(toCoordinate(input))) {
             System.out.println("Where do you want to move?");
             input = sc.nextLine();
         }
