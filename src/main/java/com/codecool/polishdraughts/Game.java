@@ -12,6 +12,11 @@ public class Game {
         board = new Board(n);
     }
 
+    public void clearScreen () {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public boolean stringIsNumeric (String possibleNumber) {
         return possibleNumber.chars().allMatch( Character::isDigit );
     }
@@ -75,6 +80,7 @@ public class Game {
 
 
     public void start(){
+        clearScreen();
         System.out.println(board);
 
         int player = 1;
@@ -89,6 +95,7 @@ public class Game {
         Coordinates newPosition = getNewPosition(pawnToMove, player);
 
         board.movePawn(pawnToMove, newPosition);
+        clearScreen();
         System.out.println(board);
 
         player = (player == 1) ? 0 : 1;
