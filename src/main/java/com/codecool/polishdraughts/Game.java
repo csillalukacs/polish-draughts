@@ -49,16 +49,18 @@ public class Game {
     }
 
     public Pawn getPawn(int player) {
-        String pawn = "";
+        String pawnString = "";
 
-        while (invalidInput(pawn, board.getSize())
-                || (board.getField(toCoordinate(pawn)) == null)
-                || player != board.getField(toCoordinate(pawn)).getColor()
-                || !board.getField(toCoordinate(pawn)).canMove()) {
-            pawn = getInput("Which pawn do you want to move, player " + player + "?");
+        while (invalidInput(pawnString, board.getSize())
+                || (board.getField(toCoordinate(pawnString)) == null)
+                || player != board.getField(toCoordinate(pawnString)).getColor()) {
+            pawnString = getInput("Which pawn do you want to move, player " + player + "?");
         }
 
-        return this.board.getField(toCoordinate(pawn));
+        Pawn pawn = this.board.getField(toCoordinate(pawnString));
+        int moveCount = pawn.getPossibleMoves().size();
+        if (moveCount < 1) return getPawn(player);
+        return pawn;
     }
 
     public Coordinates getNewPosition(Pawn pawnToMove, int player) {
