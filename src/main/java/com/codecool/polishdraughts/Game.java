@@ -73,25 +73,70 @@ public class Game {
         return toCoordinate(position);
     }
 
+    public boolean pawnsLeft (int color) {
+        for (Pawn[] row : this.board.getFields()) {
+            for (Pawn pawn : row) {
+                if ((pawn != null) && (pawn.getColor() == color)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean movesLeft (int color) {
+        for (Pawn[] row : this.board.getFields()) {
+            for (Pawn pawn : row) {
+                if ((pawn != null) && (pawn.getColor() == color)) {
+                    int moveCount = pawn.getPossibleMoves().size();
+                    if (moveCount > 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public int checkForWinner(int player) {
+        int winner = -1;
+        int opponent = (player == 1) ? 0 : 1;
+        if (!pawnsLeft(opponent) || !movesLeft(opponent)) {
+            winner = player;
+        }
+        return winner;
+    }
+
+    public void printWinner(int winner) {
+        switch (winner) {
+            case 0:
+                System.out.println("White wins!");
+                break;
+            case 1:
+                System.out.println("Black wins!");
+                break;
+            default:
+                System.out.println("No winner!");
+        }
+    }
 
     public void start(){
         System.out.println(board);
-
+        int winner = -1;
         int player = 1;
-        while (true) {
-            player = playRound(player);
+        while (winner == -1) {
+            playRound(player);
+            winner = checkForWinner(player);
+            player = (player == 1) ? 0 : 1;
         }
-
+        printWinner(winner);
     }
 
-    private int playRound(int player) {
+    private void playRound(int player) {
         Pawn pawnToMove = this.getPawn(player);
         Coordinates newPosition = getNewPosition(pawnToMove, player);
 
         board.movePawn(pawnToMove, newPosition);
         System.out.println(board);
-
-        player = (player == 1) ? 0 : 1;
-        return player;
     }
 }
