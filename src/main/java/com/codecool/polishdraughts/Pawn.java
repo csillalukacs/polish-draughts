@@ -33,32 +33,68 @@ public class Pawn {
                 return (this.fields[moveY][moveX] == null);
             }
             if ((moveY == pawnY - 2 ) && (moveX == pawnX + 2)) {
-                return (this.fields[pawnY - 1][pawnX + 1].getColor() == 0 && this.fields[pawnY-2][pawnX+2] == null);
+                return (this.fields[pawnY - 1][pawnX + 1] != null
+                        && this.fields[pawnY - 1][pawnX + 1].getColor() == 0
+                        && this.fields[pawnY-2][pawnX+2] == null);
             }
             if ((moveY == pawnY - 2 ) && (moveX == pawnX - 2)) {
-                return (this.fields[pawnY - 1][pawnX - 1].getColor() == 0 && this.fields[pawnY-2][pawnX-2] == null);
+
+                return (this.fields[pawnY - 1][pawnX - 1] != null
+                        &&
+                        this.fields[pawnY - 1][pawnX - 1].getColor() == 0 && this.fields[pawnY-2][pawnX-2] == null);
             }
             if ((moveY == pawnY + 2 ) && (moveX == pawnX + 2)) {
-                return (this.fields[pawnY + 1][pawnX + 1].getColor() == 0 && this.fields[pawnY+2][pawnX+2] == null);
+                return (this.fields[pawnY + 1][pawnX + 1] != null
+                        &&
+                        this.fields[pawnY + 1][pawnX + 1].getColor() == 0 && this.fields[pawnY+2][pawnX+2] == null);
             }
             if ((moveY == pawnY + 2 ) && (moveX == pawnX - 2)) {
-                return (this.fields[pawnY - 1][pawnX - 1].getColor() == 0 && this.fields[pawnY+2][pawnX-2] == null);
+                return (this.fields[pawnY - 1][pawnX - 1] != null
+                        &&
+                        this.fields[pawnY - 1][pawnX - 1].getColor() == 0 && this.fields[pawnY+2][pawnX-2] == null);
             }
         } else if (this.color == 0){
             if (moveY == pawnY + 1 && (moveX == pawnX + 1 || moveX == pawnX - 1)) {
                 return (this.fields[moveY][moveX] == null);
             }
             if ((moveY == pawnY - 2 ) && (moveX == pawnX + 2)) {
-                return (this.fields[pawnY - 1][pawnX + 1].getColor() == 1 && this.fields[pawnY-2][pawnX+2] == null);
+                return (this.fields[pawnY - 1][pawnX + 1] != null
+                        &&
+                        this.fields[pawnY - 1][pawnX + 1].getColor() == 1 && this.fields[pawnY-2][pawnX+2] == null);
             }
             if ((moveY == pawnY - 2 ) && (moveX == pawnX - 2)) {
-                return (this.fields[pawnY - 1][pawnX - 1].getColor() == 1 && this.fields[pawnY-2][pawnX-2] == null);
+                return (this.fields[pawnY - 1][pawnX - 1] != null
+                        &&
+                        this.fields[pawnY - 1][pawnX - 1].getColor() == 1 && this.fields[pawnY-2][pawnX-2] == null);
             }
             if ((moveY == pawnY + 2 ) && (moveX == pawnX + 2)) {
-                return (this.fields[pawnY + 1][pawnX + 1].getColor() == 1 && this.fields[pawnY+2][pawnX+2] == null);
+                return (this.fields[pawnY + 1][pawnX + 1] != null
+                        &&
+                        this.fields[pawnY + 1][pawnX + 1].getColor() == 1 && this.fields[pawnY+2][pawnX+2] == null);
             }
             if ((moveY == pawnY + 2 ) && (moveX == pawnX - 2)) {
-                return (this.fields[pawnY + 1 ][pawnX - 1 ].getColor() == 1 && this.fields[pawnY+2][pawnX-2] == null);
+                return (this.fields[pawnY + 1][pawnX - 1] != null
+                        &&
+                        this.fields[pawnY + 1 ][pawnX - 1 ].getColor() == 1 && this.fields[pawnY+2][pawnX-2] == null);
+            }
+        }
+        return false;
+    }
+
+    public boolean canMove(){
+        Coordinates[] directions = {position.topLeft(fields.length),
+                position.topRight(fields.length),
+                position.bottomLeft(fields.length),
+                position.bottomRight(fields.length),
+                position.captureTopLeft(fields.length),
+                position.captureTopRight(fields.length),
+                position.captureBottomLeft(fields.length),
+                position.captureBottomRight(fields.length),
+
+        };
+        for (Coordinates direction : directions ){
+            if (direction != null && validateMove(direction)){
+                return true;
             }
         }
         return false;
