@@ -2,8 +2,6 @@ package com.codecool.polishdraughts;
 
 public class Board {
 
-
-
     private Pawn[][] fields;
     private int size;
 
@@ -14,18 +12,13 @@ public class Board {
     public Board(int n) {
         this.fields = new Pawn[n][n];
         this.size = n;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if ((i < 4) || (i >= n - 4)) {
-                    boolean isBlack = (i >= n - 4);
-                    if (i % 2 == 0) {
-                        if (j % 2 == 1) {
-                            this.fields[i][j] = new Pawn(j, i, isBlack ? 1 : 0, this.fields);
-                        }
-                    } else {
-                        if (j % 2 == 0) {
-                            this.fields[i][j] = new Pawn(j, i, isBlack ? 1 : 0, this.fields);
-                        }
+        for (int rowIndex = 0; rowIndex < n; rowIndex++) {
+            for (int colIndex = 0; colIndex < n; colIndex++) {
+                if ((rowIndex < 4) || (rowIndex >= n - 4)) {
+                    boolean isBlack = (rowIndex >= n - 4);
+                    if (((rowIndex % 2 == 0) && ((colIndex % 2 == 1))) ||
+                            ((rowIndex % 2 == 1) && ((colIndex % 2 == 0)))) {
+                        this.fields[rowIndex][colIndex] = new Pawn(colIndex, rowIndex, isBlack ? 1 : 0, this.fields);
                     }
                 }
             }
