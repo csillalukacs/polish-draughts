@@ -1,5 +1,7 @@
 package com.codecool.polishdraughts;
 
+import java.util.ArrayList;
+
 public class Pawn {
     private int color;
 
@@ -18,6 +20,25 @@ public class Pawn {
         this.position = new Coordinates(x, y);
         this.color = color;
         this.fields = fields;
+    }
+
+    public ArrayList<Coordinates> getPossibleMoves() {
+        int pawnX = this.position.getX();
+        int pawnY = this.position.getY();
+        int startX = pawnX - 2;
+        int startY = pawnY - 2;
+        ArrayList<Coordinates> possibleMoves = new ArrayList<>();
+        for (int x = startX; x < startX + 5; x++) {
+            for (int y = startY; y < startY + 5; y++) {
+                Coordinates move = new Coordinates(x, y);
+                try {
+                    if (validateMove(move)) {
+                        possibleMoves.add(move);
+                    }
+                } catch (Exception ignored) {}
+            }
+        }
+        return possibleMoves;
     }
 
     public boolean validateMove(Coordinates move) {
