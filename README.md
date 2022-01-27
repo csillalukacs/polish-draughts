@@ -1,3 +1,5 @@
+![image](https://user-images.githubusercontent.com/52175603/151334689-e9a4c89e-ad71-494c-8f26-731524e77084.png)
+
 # Polish draughts
 
 ## Story
